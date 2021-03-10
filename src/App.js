@@ -4,7 +4,7 @@ import Itinerary from './components/Itinerary';
 
 const App = () => (
   <div className="container">
-    <Jumbotron />
+    <Jumbotron date="March 11, 2021" />
     <Itinerary />
   </div>
 );
