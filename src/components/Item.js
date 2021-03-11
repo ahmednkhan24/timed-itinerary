@@ -1,47 +1,29 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-unused-prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment-timezone';
+import Timer from './Timer';
+import UnlockedItem from './UnlockedItem';
 
-const ListItem = ({ text, children }) =>
-  children ? (
-    <li>{children}</li>
+const Item = ({ startTime, ...restOfProps }) => {
+  const momentStartTime = moment(startTime, ['h:mm A']).tz('America/Chicago');
+  const [countDownDone, setCountDownDone] = useState(false);
+
+  return !countDownDone ? (
+    <>
+      <Timer
+        endTime={momentStartTime.subtract(30, 'minutes').toDate()}
+        finishCountDown={() => setCountDownDone(true)}
+      />
+      <hr className="my-4" />
+    </>
   ) : (
-    <li>
-      <h6>{text}</h6>
-    </li>
+    <>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <UnlockedItem startTime={startTime} {...restOfProps} />
+      <hr className="my-4" />
+    </>
   );
-
-const Item = ({
-  title,
-  startTime,
-  endTime,
-  info,
-  address,
-  timeToNextDestination,
-}) => (
-  <div>
-    <h2>{title}</h2>
-    <br />
-    <h5>
-      {startTime} - {endTime}
-    </h5>
-    <br />
-    <ul>
-      {info.map((item) => (
-        <ListItem text={item} />
-      ))}
-      <ListItem text={address.name} />
-      <ListItem>
-        <a target="_blank" rel="noreferrer" href={address.url}>
-          {address.text}
-        </a>
-      </ListItem>
-      <ListItem text={timeToNextDestination} />
-    </ul>
-  </div>
-);
+};
 
 Item.propTypes = {
   title: PropTypes.string.isRequired,

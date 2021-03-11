@@ -7,6 +7,7 @@ const Itinerary = () => (
     {data.map((item) => (
       <>
         <Item
+          key={item.title}
           title={item.title}
           startTime={item.startTime}
           endTime={item.endTime}
@@ -14,7 +15,6 @@ const Itinerary = () => (
           info={item.info}
           address={item.address}
         />
-        <hr className="my-4" />
       </>
     ))}
     <br />
